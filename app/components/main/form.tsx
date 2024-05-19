@@ -133,7 +133,8 @@ export default function CollectForm() {
 
                 if (!collection[0].collected) { // not collected
                     console.log("collection ", collection[0].size)
-                    setShirtSize(collection[0].size)
+                    const foundItem = sizes.find(item => item.size === collection[0].size);
+                    if (foundItem && foundItem.quantity > 0) setShirtSize(collection[0].size);
                 } else { // collected
                     setError("You have already collected your shirt")
                 }
@@ -141,6 +142,17 @@ export default function CollectForm() {
         }
     }
 
+    const checkButton = () => {
+
+        if (!checked || !shirtSize || error.length > 0 || !valid) return true
+        if (shirtSize) {
+            const foundItem =
+                sizes.find(item => item.size === shirtSize);
+            if (foundItem && foundItem.quantity <= 0) return true
+        }
+
+        return false
+    }
     return (
         sizes.length > 0 ? <form className="flex-col px-4 py-1 overflow-auto" onSubmit={handleSubmit}>
             <div className="mb-4">
@@ -219,7 +231,8 @@ export default function CollectForm() {
             </div>}
 
             <button
-                disabled={!checked || !shirtSize || error.length > 0 || !valid}
+                // disabled={!checked || !shirtSize || error.length > 0 || !valid}
+                disabled={checkButton()}
                 type="submit"
                 className="mt-2 flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:bg-gray-400 disabled:cursor-not-allowed">
                 Submit

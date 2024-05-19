@@ -1,7 +1,7 @@
 import {NextRequest, NextResponse} from 'next/server';
 import {getSupabaseClient} from "@/app/service/supabase/supabase";
 import {RealtimeChannel} from '@supabase/supabase-js';
-
+export const dynamic = 'force-dynamic';
 export async function GET(req: NextRequest) {
     const encoder = new TextEncoder();
     const stream = new TransformStream();

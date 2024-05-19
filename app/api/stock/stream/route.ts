@@ -1,5 +1,6 @@
 import {NextRequest, NextResponse} from 'next/server';
 import {getSupabaseClient} from "@/app/service/supabase/supabase";
+import {RealtimeChannel} from '@supabase/supabase-js';
 
 export async function GET(req: NextRequest) {
     const encoder = new TextEncoder();
@@ -13,18 +14,24 @@ export async function GET(req: NextRequest) {
         writer.write(encoder.encode(`data: ${JSON.stringify(payload.new)}\n\n`));
     };
 
-    const subscription = supabase
-        .channel('public:ppil_scp_shirt')
-        .on(
-            'postgres_changes',
-            {event: 'UPDATE', schema: 'public', table: 'ppil_scp_shirt'},
-            handleInserts
-        )
-        .subscribe();
+    let subscription: RealtimeChannel;
+
+    if (supabase) {
+        subscription = supabase
+            .channel('public:ppil_scp_shirt')
+            .on(
+                'postgres_changes',
+                {event: 'UPDATE', schema: 'public', table: 'ppil_scp_shirt'},
+                handleInserts
+            )
+            .subscribe();
+    }
 
     req.signal.onabort = () => {
         console.log('Client disconnected');
-        subscription.unsubscribe();
+        if (supabase) {
+            subscription.unsubscribe();
+        }
         writer.close();
     };
 

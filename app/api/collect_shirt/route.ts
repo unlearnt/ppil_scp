@@ -17,9 +17,18 @@ export async function POST(request: Request) {
             supabase.rpc('decrement',
                 {x: 1, selected_size: body.shirtSize.toUpperCase()})
 
-        console.log("data ", data)
-        console.log("error ", error)
+        console.log("decrement data ", data)
+        console.log("decrement error ", error)
 
+
+        const {update_data, update_error} = await supabase
+            .from('ppil_scp_shirt_collection')
+            .update({collected: true, collected_size: body.shirtSize.toUpperCase()})
+            .eq('corp_id', body.corpId)
+            .select()
+
+        console.log("update data ", update_data)
+        console.log("update error ", update_error)
 
         // const name = formData.get('name')
         // const email = formData.get('email')

@@ -38,7 +38,7 @@ export default function CollectForm() {
     useEffect(() => {
         const getShirtSizes = async () => {
             try {
-                const response = await fetch('/api/stock'); // Replace with your API endpoint
+                const response = await fetch('/api/stock');
                 if (!response.ok) {
                     throw new Error('get stock response failed');
                 }
@@ -109,6 +109,7 @@ export default function CollectForm() {
         setLocker(locker);
         setPass(pass);
         setOpen(true);
+        setValid(false);
     };
 
     const onTextChange = async (event: React.FormEvent) => {
@@ -138,6 +139,8 @@ export default function CollectForm() {
                 } else { // collected
                     setError("You have already collected your shirt")
                 }
+            } else {
+                setError("We couldn't locate your record in our system. It seems you haven't registered for the shirt yet.")
             }
         }
     }

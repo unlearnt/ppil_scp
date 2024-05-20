@@ -13,22 +13,17 @@ export async function POST(request: Request) {
         console.log("corpId ", body.corpId)
         console.log("shirtSize ", body.shirtSize)
 
-        const {data, error} = await
-            supabase.rpc('decrement',
-                {x: 1, selected_size: body.shirtSize.toUpperCase()})
+        void await supabase.rpc('decrement',
+            {x: 1, selected_size: body.shirtSize.toUpperCase()})
 
-        console.log("decrement data ", data)
-        console.log("decrement error ", error)
-
-
-        const {update_data, update_error} = await supabase
+        let {data, error} = await supabase
             .from('ppil_scp_shirt_collection')
             .update({collected: true, collected_size: body.shirtSize.toUpperCase()})
             .eq('corp_id', body.corpId)
             .select()
 
-        console.log("update data ", update_data)
-        console.log("update error ", update_error)
+        console.log("update data ", data)
+        console.log("update error ", error)
 
         // const name = formData.get('name')
         // const email = formData.get('email')

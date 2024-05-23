@@ -12,7 +12,7 @@ export default function Modal(props: {
 
     return (
         <Transition.Root show={open} as={Fragment}>
-            <Dialog className="relative z-10" onClose={setOpen}>
+            <Dialog className="relative z-10" onClose={()=>{}}>
                 <Transition.Child
                     as={Fragment}
                     enter="ease-out duration-300"

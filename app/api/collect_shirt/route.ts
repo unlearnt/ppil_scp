@@ -1,11 +1,9 @@
-import {createClient} from '@supabase/supabase-js'
-
+import {getSupabaseClient} from "@/app/service/supabase/supabase";
 
 export const dynamic = 'force-dynamic' // defaults to auto
 export async function POST(request: Request) {
 
-    // @ts-ignore
-    const supabase = createClient(process.env.SUPABASE_API_URL, process.env.SUPABASE_API_KEY)
+    const supabase = getSupabaseClient();
 
     if (supabase) {
 
@@ -38,22 +36,10 @@ export async function POST(request: Request) {
         }
         return new Response(JSON.stringify(response), {
             status: 200,
-            headers: {
-                'Content-Type': 'text/plain',
-                'Cache-Control': 'no-cache, no-store, must-revalidate', // Prevent caching
-                'Pragma': 'no-cache', // HTTP 1.0
-                'Expires': '0', // Proxies
-            },
         })
     } else {
         return new Response('Unable to submit shirt ', {
             status: 400,
-            headers: {
-                'Content-Type': 'text/plain',
-                'Cache-Control': 'no-cache, no-store, must-revalidate', // Prevent caching
-                'Pragma': 'no-cache', // HTTP 1.0
-                'Expires': '0', // Proxies
-            },
         })
     }
 }

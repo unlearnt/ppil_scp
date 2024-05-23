@@ -1,14 +1,13 @@
 import {NextRequest, NextResponse} from 'next/server';
-// import {getSupabaseClient} from "@/app/service/supabase/supabase";
-import {createClient, RealtimeChannel} from '@supabase/supabase-js';
+import {getSupabaseClient} from "@/app/service/supabase/supabase";
+import {RealtimeChannel} from '@supabase/supabase-js';
 export const dynamic = 'force-dynamic';
 export async function GET(req: NextRequest) {
     const encoder = new TextEncoder();
     const stream = new TransformStream();
     const writer = stream.writable.getWriter();
 
-    // @ts-ignore
-    const supabase = createClient(process.env.SUPABASE_API_URL, process.env.SUPABASE_API_KEY)
+    const supabase = getSupabaseClient();
 
     const handleInserts = (payload: any) => {
         console.log('Change received!', payload);

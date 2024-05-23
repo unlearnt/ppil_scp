@@ -36,10 +36,22 @@ export async function POST(request: Request) {
         }
         return new Response(JSON.stringify(response), {
             status: 200,
+            headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-cache, no-store, must-revalidate', // Prevent caching
+                'Pragma': 'no-cache', // HTTP 1.0
+                'Expires': '0', // Proxies
+            }
         })
     } else {
         return new Response('Unable to submit shirt ', {
             status: 400,
+            headers: {
+                'Content-Type': 'application/json',
+                'Cache-Control': 'no-cache, no-store, must-revalidate', // Prevent caching
+                'Pragma': 'no-cache', // HTTP 1.0
+                'Expires': '0', // Proxies
+            }
         })
     }
 }

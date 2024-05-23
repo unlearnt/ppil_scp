@@ -1,5 +1,5 @@
 "use client"
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Modal from "@/app/components/main/modal";
 
 type SizeOption = {
@@ -34,6 +34,9 @@ export default function CollectForm() {
 
     const [locker, setLocker] = useState("abc");
     const [pass, setPass] = useState("123");
+
+    const currentRequest = useRef(0);
+    // const abortController = useRef<AbortController | null>(null);
 
     useEffect(() => {
         const getShirtSizes = async () => {
@@ -124,9 +127,23 @@ export default function CollectForm() {
 
         if (value.length >= 4) {
             console.log("check corp id")
+            const requestId = ++currentRequest.current;
+
+            // if (abortController.current) {
+            //     abortController.current.abort();
+            // }
+            // abortController.current = new AbortController();
+            // const signal = abortController.current.signal;
+            // console.log("check corp id");
 
             const response = await fetch(`/api/check_collection?corp-id=${value.toLowerCase()}`);
             const collection: [Collection] = await response.json()
+
+            if (requestId !== currentRequest.current) {
+                // Ignore outdated responses
+                return;
+            }
+
 
             if (collection.length > 0) {
                 console.log("collection ", collection)
@@ -137,7 +154,7 @@ export default function CollectForm() {
                     const foundItem = sizes.find(item => item.size === collection[0].size);
                     if (foundItem && foundItem.quantity > 0) setShirtSize(collection[0].size);
                 } else { // collected
-                    setError("You have already collected your shirt")
+                    // setError("You have already collected your shirt")
                 }
             } else {
                 setError("We couldn't locate your record in our system. It seems you haven't registered for the shirt yet.")
@@ -147,7 +164,7 @@ export default function CollectForm() {
 
     const checkButton = () => {
 
-        if (!checked || !shirtSize || error.length > 0 || !valid) return true
+        if ( !shirtSize || error.length > 0 || !valid) return true
         if (shirtSize) {
             const foundItem =
                 sizes.find(item => item.size === shirtSize);
@@ -200,36 +217,36 @@ export default function CollectForm() {
                 ))}
             </div>
 
-            <ul role="list" className="space-y-3 py-4">
-                <li className="overflow-hidden rounded-md bg-white px-6 py-4 shadow">
-                    <fieldset>
-                        <div className="space-y-5">
-                            <div className="relative flex items-start">
-                                <div className="flex h-6 items-center">
-                                    <input
-                                        id="comments"
-                                        aria-describedby="comments-description"
-                                        name="comments"
-                                        type="checkbox"
-                                        onClick={(event) => setChecked(event.currentTarget.checked)}
-                                        className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"
-                                    />
-                                </div>
-                                <div className="ml-3 text-sm leading-6">
-                                    <label htmlFor="comments" className="font-medium text-gray-900">
-                                        Placeholder
-                                    </label>
-                                    <p id="comments-description" className="text-gray-500">
-                                        Placeholder Placeholder Placeholder
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                    </fieldset>
-                </li>
-            </ul>
+            {/*<ul role="list" className="space-y-3 py-4">*/}
+            {/*    <li className="overflow-hidden rounded-md bg-white px-6 py-4 shadow">*/}
+            {/*        <fieldset>*/}
+            {/*            <div className="space-y-5">*/}
+            {/*                <div className="relative flex items-start">*/}
+            {/*                    <div className="flex h-6 items-center">*/}
+            {/*                        <input*/}
+            {/*                            id="comments"*/}
+            {/*                            aria-describedby="comments-description"*/}
+            {/*                            name="comments"*/}
+            {/*                            type="checkbox"*/}
+            {/*                            onClick={(event) => setChecked(event.currentTarget.checked)}*/}
+            {/*                            className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-600"*/}
+            {/*                        />*/}
+            {/*                    </div>*/}
+            {/*                    <div className="ml-3 text-sm leading-6">*/}
+            {/*                        <label htmlFor="comments" className="font-medium text-gray-900">*/}
+            {/*                            Placeholder*/}
+            {/*                        </label>*/}
+            {/*                        <p id="comments-description" className="text-gray-500">*/}
+            {/*                            Placeholder Placeholder Placeholder*/}
+            {/*                        </p>*/}
+            {/*                    </div>*/}
+            {/*                </div>*/}
+            {/*            </div>*/}
+            {/*        </fieldset>*/}
+            {/*    </li>*/}
+            {/*</ul>*/}
 
-            {error && <div className="text-red-600 bg-red-100 p-4 rounded">
+            {error && <div className="text-red-600 bg-red-100 p-4 rounded mt-2">
                 {error}
             </div>}
 

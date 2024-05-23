@@ -35,7 +35,7 @@ export default function CollectForm() {
     const [locker, setLocker] = useState("abc");
     const [pass, setPass] = useState("123");
 
-    // const currentRequest = useRef(0);
+    const currentRequest = useRef(0);
     // const abortController = useRef<AbortController | null>(null);
 
     useEffect(() => {
@@ -127,7 +127,7 @@ export default function CollectForm() {
 
         if (value.length >= 4) {
             console.log("check corp id")
-            // const requestId = ++currentRequest.current;
+            const requestId = ++currentRequest.current;
 
             // if (abortController.current) {
             //     abortController.current.abort();
@@ -139,10 +139,10 @@ export default function CollectForm() {
             const response = await fetch(`/api/check_collection?corp-id=${value.toLowerCase()}`);
             const collection: [Collection] = await response.json()
 
-            // if (requestId !== currentRequest.current) {
-            //     // Ignore outdated responses
-            //     return;
-            // }
+            if (requestId !== currentRequest.current) {
+                // Ignore outdated responses
+                return;
+            }
 
 
             if (collection.length > 0) {

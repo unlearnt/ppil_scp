@@ -74,27 +74,29 @@ async function get_locker(shirt_size: String){
             .select('quantity')
             .eq('size', shirt_size)
 
-        const selectedSizeQuantity = data[0].quantity;
-        console.log("data ", selectedSizeQuantity);
-        console.log(`selected shirt size is: ${JSON.stringify(shirt_size)} and stock level is ${selectedSizeQuantity}`);
+        if (data) {
+            const selectedSizeQuantity = data[0].quantity;
+            console.log("data ", selectedSizeQuantity);
+            console.log(`selected shirt size is: ${JSON.stringify(shirt_size)} and stock level is ${selectedSizeQuantity}`);
 
-        const mapEntry = map.get(shirt_size);
-        if (mapEntry) {
-            let selectedLocker;
-            if (mapEntry.lockers.length > 1) {
-                const lockerIndex = selectedSizeQuantity / mapEntry.quantity > 1 ? 0 : 1;
-                selectedLocker = mapEntry.lockers[lockerIndex];
+            const mapEntry = map.get(shirt_size);
+            if (mapEntry) {
+                let selectedLocker;
+                if (mapEntry.lockers.length > 1) {
+                    const lockerIndex = selectedSizeQuantity / mapEntry.quantity > 1 ? 0 : 1;
+                    selectedLocker = mapEntry.lockers[lockerIndex];
+                } else {
+                    selectedLocker = mapEntry.lockers[0];
+                }
+                console.log(`Assigned locker is: ${selectedLocker.locker_no}, password: ${selectedLocker.locker_password}`);
+                return selectedLocker;
             } else {
-                selectedLocker = mapEntry.lockers[0];
+                console.log("No entry found in map for the selected shirt size.");
+                return null;
             }
-            console.log(`Assigned locker is: ${selectedLocker.locker_no}, password: ${selectedLocker.locker_password}`);
-            return selectedLocker;
-        } else {
-            console.log("No entry found in map for the selected shirt size.");
-            return null;
         }
     }
-
+    return null;
 }
 export async function POST(request: Request) {
 

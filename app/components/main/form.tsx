@@ -154,7 +154,7 @@ export default function CollectForm() {
                     const foundItem = sizes.find(item => item.size === collection[0].size);
                     if (foundItem && foundItem.quantity > 0) setShirtSize(collection[0].size);
                 } else { // collected
-                    // setError("You have already collected your shirt")
+                    setError("You have already collected your shirt")
                 }
             } else {
                 setError("We couldn't locate your record in our system. It seems you haven't registered for the shirt yet.")

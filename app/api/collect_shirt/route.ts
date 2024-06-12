@@ -31,7 +31,7 @@ async function get_locker(shirt_size: String){
     })
 
     map.set("L", {
-        quantity : 70,
+        quantity : 69,
         lockers : [
             { locker_no : "11-0251", locker_password: "4472"},
             { locker_no : "11-0245", locker_password: "8600"}
@@ -83,7 +83,7 @@ async function get_locker(shirt_size: String){
             if (mapEntry) {
                 let selectedLocker;
                 if (mapEntry.lockers.length > 1) {
-                    const lockerIndex = selectedSizeQuantity / mapEntry.quantity > 1 ? 1 : 0;
+                    const lockerIndex = (selectedSizeQuantity+1) / mapEntry.quantity > 1 ? 1 : 0;
                     selectedLocker = mapEntry.lockers[lockerIndex];
                 } else {
                     selectedLocker = mapEntry.lockers[0];

@@ -83,7 +83,7 @@ async function get_locker(shirt_size: String){
             if (mapEntry) {
                 let selectedLocker;
                 if (mapEntry.lockers.length > 1) {
-                    const lockerIndex = selectedSizeQuantity / mapEntry.quantity >= 1 ? 1 : 0;
+                    const lockerIndex = selectedSizeQuantity / mapEntry.quantity < 1 ? 0 : 1;
                     selectedLocker = mapEntry.lockers[lockerIndex];
                 } else {
                     selectedLocker = mapEntry.lockers[0];

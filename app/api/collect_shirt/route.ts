@@ -23,7 +23,7 @@ async function get_locker(shirt_size: String){
     })
 
     map.set("M", {
-        quantity : 45,
+        quantity : 46,
         lockers : [
             { locker_no : "11-0248", locker_password: "2370"},
             { locker_no : "11-0250", locker_password: "4100"}

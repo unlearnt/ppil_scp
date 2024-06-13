@@ -13,10 +13,15 @@ export async function GET(request: NextRequest) {
     console.log("query ", query)
 
     if (supabase) {
+        let queryParts = query.split('@');
+        let queryBase = queryParts[0];
+
         let {data, error} = await supabase
             .from('ppil_scp_shirt_collection')
             .select('size, collected')
-            .eq('corp_id', query)
+            .eq('corp_id', queryBase)
+            // .or(`corp_id.ilike.${query}, corp_id.ilike.${query}@%`);
+
 
         console.log("data ", data)
 

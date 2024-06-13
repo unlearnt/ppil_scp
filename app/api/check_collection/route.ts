@@ -13,8 +13,13 @@ export async function GET(request: NextRequest) {
     console.log("query ", query)
 
     if (supabase) {
-        let queryParts = query.split('@');
-        let queryBase = queryParts[0];
+        let queryParts: String[] = [""];
+        let queryBase: String="";
+
+        if (query) {
+            queryParts = query.split('@');
+            queryBase = queryParts[0];
+        }
 
         let {data, error} = await supabase
             .from('ppil_scp_shirt_collection')

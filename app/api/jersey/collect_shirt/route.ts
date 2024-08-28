@@ -40,7 +40,7 @@ export async function POST(request: Request) {
         let query = body.corpId;
         const queryParts = query.split('@');
 
-        if(queryParts.length > 1){
+        if (queryParts.length > 1) {
             query = queryParts[0];
         }
 
@@ -50,28 +50,30 @@ export async function POST(request: Request) {
             .eq('corp_id', query)
             .select()
 
-        console.log("update data ", data)
-        console.log("update error ", error)
+        if (data) {
+            console.log("update data ", data)
+            console.log("update error ", error)
 
-        console.log("locker no ", data[0].locker_no)
+            console.log("locker no ", data[0].locker_no)
 
-        const locker = await get_locker(data[0].locker_no)
+            const locker = await get_locker(data[0].locker_no)
 
-        console.log("locker ", locker)
+            console.log("locker ", locker)
 
-        let response = {
-            'locker': data[0].locker_no,
-            'pass': locker
-        }
-        return new Response(JSON.stringify(response), {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json',
-                'Cache-Control': 'no-cache, no-store, must-revalidate', // Prevent caching
-                'Pragma': 'no-cache', // HTTP 1.0
-                'Expires': '0', // Proxies
+            let response = {
+                'locker': data[0].locker_no,
+                'pass': locker
             }
-        })
+            return new Response(JSON.stringify(response), {
+                status: 200,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Cache-Control': 'no-cache, no-store, must-revalidate', // Prevent caching
+                    'Pragma': 'no-cache', // HTTP 1.0
+                    'Expires': '0', // Proxies
+                }
+            })
+        }
     } else {
         return new Response('Unable to submit shirt ', {
             status: 400,

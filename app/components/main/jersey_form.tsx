@@ -24,6 +24,7 @@ export default function JerseyForm() {
 
     const [locker, setLocker] = useState("abc");
     const [pass, setPass] = useState("123");
+    const [jerseyName, setJerseyName] = useState("");
 
     const currentRequest = useRef(0);
     // const abortController = useRef<AbortController | null>(null);
@@ -55,10 +56,11 @@ export default function JerseyForm() {
             throw new Error('unable to submit for shirt collection');
         }
 
-        let {locker, pass} = await res.json();
+        let {locker, pass, jersey_name} = await res.json();
 
         setLocker(locker);
         setPass(pass);
+        setJerseyName(jersey_name);
         setOpen(true);
         setValid(false);
     };
@@ -101,7 +103,7 @@ export default function JerseyForm() {
     return (
         <form className="flex-col px-4 py-1 overflow-auto" onSubmit={handleSubmit}>
             <div className="mb-4">
-                <Modal open={open} setOpen={setOpen} locker={locker} pass={pass}/>
+                <Modal open={open} setOpen={setOpen} locker={locker} pass={pass} jersey_name={jerseyName}/>
                 <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                     Corp ID
                 </label>

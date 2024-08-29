@@ -7,8 +7,9 @@ export default function Modal(props: {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     locker: string;
     pass: string;
+    jersey_name: string;
 }) {
-    let {open, setOpen, locker, pass} = props;
+    let {open, setOpen, locker, pass, jersey_name} = props;
 
     return (
         <Transition.Root show={open} as={Fragment}>
@@ -51,10 +52,9 @@ export default function Modal(props: {
                                         </Dialog.Title>
                                         <div className="mt-4 p-4 bg-gray-100 rounded-lg">
                                             <p className="text-sm text-gray-700">
-                                                Please collect your shirt at locker <span
-                                                className="font-semibold text-gray-800">{locker}</span> using the
-                                                passcode <span className="font-semibold text-gray-800">{pass}</span> on
-                                                level 11.
+                                                Please collect your shirt <span className="font-semibold text-gray-800">({jersey_name}) </span>
+                                                <br/> at locker <span className="font-semibold text-gray-800">{locker}</span> using the
+                                                passcode <span className="font-semibold text-gray-800">{pass}</span> <br/> on level 11.
                                             </p>
                                         </div>
                                     </div>

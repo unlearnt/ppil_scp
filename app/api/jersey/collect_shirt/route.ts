@@ -55,6 +55,7 @@ export async function POST(request: Request) {
             console.log("update error ", error)
 
             console.log("locker no ", data[0].locker_no)
+            console.log("jersey name ", data[0].jersey_name)
 
             const locker = await get_locker(data[0].locker_no)
 
@@ -62,7 +63,8 @@ export async function POST(request: Request) {
 
             let response = {
                 'locker': data[0].locker_no,
-                'pass': locker
+                'pass': locker,
+                'jersey_name': data[0].jersey_name
             }
             return new Response(JSON.stringify(response), {
                 status: 200,

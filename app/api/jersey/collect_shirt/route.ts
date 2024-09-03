@@ -2,29 +2,29 @@ import {getSupabaseClient} from "@/app/service/supabase/supabase";
 
 export const dynamic = 'force-dynamic' // defaults to auto
 
-async function get_locker(locker_no: String) {
-
-    console.log("get locker no ", locker_no)
-    const supabase = getSupabaseClient();
-
-    if (supabase) {
-        let {data, error} = await supabase
-            .from('ppil_scp_lockers')
-            .select('locker_pass')
-            .eq('locker_no', locker_no)
-
-        if (data) {
-            const lockerPass = data[0].locker_pass;
-            console.log("data ", lockerPass);
-            console.log(`selected locker pass is: ${JSON.stringify(lockerPass)} and locker no is ${locker_no}`);
-
-            return lockerPass;
-        }
-
-        return null
-    }
-    return null;
-}
+// async function get_locker(locker_no: String) {
+//
+//     console.log("get locker no ", locker_no)
+//     const supabase = getSupabaseClient();
+//
+//     if (supabase) {
+//         let {data, error} = await supabase
+//             .from('ppil_scp_lockers')
+//             .select('locker_pass')
+//             .eq('locker_no', locker_no)
+//
+//         if (data) {
+//             const lockerPass = data[0].locker_pass;
+//             console.log("data ", lockerPass);
+//             console.log(`selected locker pass is: ${JSON.stringify(lockerPass)} and locker no is ${locker_no}`);
+//
+//             return lockerPass;
+//         }
+//
+//         return null
+//     }
+//     return null;
+// }
 
 export async function POST(request: Request) {
 
@@ -57,13 +57,9 @@ export async function POST(request: Request) {
             console.log("locker no ", data[0].locker_no)
             console.log("jersey name ", data[0].jersey_name)
 
-            const locker = await get_locker(data[0].locker_no)
-
-            console.log("locker ", locker)
-
             let response = {
                 'locker': data[0].locker_no,
-                'pass': locker,
+                'pass': data[0].locker_pass,
                 'jersey_name': data[0].jersey_name
             }
             return new Response(JSON.stringify(response), {

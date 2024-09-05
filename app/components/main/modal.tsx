@@ -53,7 +53,7 @@ export default function Modal(props: {
                                         <div className="mt-4 p-4 bg-gray-100 rounded-lg">
                                             <p className="text-sm text-gray-700">
                                                 Please collect your jersey with name <span className="font-semibold text-gray-800">{jersey_name}</span>
-                                                <br/> at locker <span className="font-semibold text-gray-800">{locker}</span> using the
+                                                <br/> at locker <span className="font-semibold text-gray-800">{locker.split("-")[1]}</span> using the
                                                 passcode <span className="font-semibold text-gray-800">{pass}</span> <br/> on Level 11.
                                             </p>
                                         </div>
